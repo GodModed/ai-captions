@@ -54,6 +54,8 @@ For English-only applications, the .en models tend to perform better, especially
 These models are provided by OpenAI. [More Info](https://github.com/openai/whisper/blob/main/README.md)
 
 It may take some time to run for the first time since the AI model needs to be downloaded.
+
+The output of the program will be in the `output` folder. There will be a video called `output.mp4` inside of the folder.
 ## Help
 
 Make an [Issue](https://github.com/GodModed/ai-captions/issues) to report a bug or request a feature.
