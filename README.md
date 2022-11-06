@@ -21,7 +21,10 @@ This small project uses OpenAI's whisper AI to generate captions for videos.
 
 ### Installing
 
+* Clone the repo
+* Install python from [here](https://www.python.org/downloads/) if you have not already installed it.
 * You can install ImageMagic from [here](https://imagemagick.org/script/download.php) (The installer includes FFmpeg)
+* Install the requirements by running `py setup.py` inside of the project directory.
 
 ### Executing program
 
@@ -49,6 +52,8 @@ python main.py video.mp4 tiny.en
 
 For English-only applications, the .en models tend to perform better, especially for the tiny.en and base.en models.
 These models are provided by OpenAI. [More Info](https://github.com/openai/whisper/blob/main/README.md)
+
+It may take some time to run for the first time since the AI model needs to be downloaded.
 ## Help
 
 Make an [Issue](https://github.com/GodModed/ai-captions/issues) to report a bug or request a feature.
