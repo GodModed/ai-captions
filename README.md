@@ -1,7 +1,7 @@
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
+[![GitHub issues](https://img.shields.io/github/issues/godmoded/ai-captions?style=for-the-badge)](https://github.com/godmoded/ai-captions/issues)
+[![GitHub forks](https://img.shields.io/github/forks/godmoded/ai-captions?style=for-the-badge)](https://github.com/godmoded/ai-captions/network)
+[![GitHub stars](https://img.shields.io/github/stars/godmoded/ai-captions?style=for-the-badge)](https://github.com/godmoded/ai-captions/stargazers)
+[![GitHub license](https://img.shields.io/github/license/godmoded/ai-captions?style=for-the-badge)](https://github.com/GodModed/ai-captions/blob/master/LICENSE)
 
 # Ai Captions
 
