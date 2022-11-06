@@ -5,7 +5,7 @@
 
 # Ai Captions
 
-Simple overview of use/purpose.
+Create captions for videos using AI.
 
 ## Description
 
