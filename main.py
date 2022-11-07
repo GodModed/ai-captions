@@ -61,16 +61,24 @@ def addCaptions(output):
     global video
     global clips
     # loop through all segments
+    lastSegmentTime = (0, 0)
     for segment in output["segments"]:
+
         start = segment["start"]
         end = segment["end"]
+
         if end > video.audio.duration:
             end = video.audio.duration
         text = segment["text"]
         clip = video.subclip(start, end)
+        if lastSegmentTime != (0, 0):
+            if lastSegmentTime[1] != start:
+                clipWithNoCaptiom = video.subclip(lastSegmentTime[1], start)
+                clips.append(clipWithNoCaptiom)
         text_clip = mp.TextClip(text, color='white', method="label", size=clip.size, interline=-1, kerning=-2, align="South").set_duration(clip.duration)
         clip = mp.CompositeVideoClip([clip, text_clip])
         clips.append(clip)
+        lastSegmentTime = (start, end)
     video = mp.concatenate_videoclips(clips)
     video.write_videofile("output/output.mp4")
 
