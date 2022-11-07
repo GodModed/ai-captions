@@ -34,12 +34,19 @@ python setup.py
 ```
 * Then run the `main.py` with your own arguments.
 ```bash
-python main.py <path/to/video> <openai whisper model> <optional: preview (just input anything)>
+python main.py -v <video path> -m <whisper model name> -p (-p is optional)
 ```
+
 * Example
 ```bash
-python main.py video.mp4 tiny.en 
+python main.py -v video.mp4 -m tiny.en -p
 ```
+
+* Arguments
+    * `-v` or `--video` - The path to the video file.
+    * `-m` or `--model` - The name of the model to use. (The list of models can be found below)
+    * `-p` or `--preview` - If you want to preview the generated video.
+
 * Models
 
 |  Size  | Parameters | English-only model | Multilingual model | Required VRAM | Relative speed |
@@ -66,6 +73,9 @@ Make an [Issue](https://github.com/GodModed/ai-captions/issues) to report a bug 
 
 ## Version History
 
+* 0.2
+    * Added the ability to preview the generated video.
+    * Added better argument parsing.
 * 0.1.1
    * Fixed video getting cut off
 * 0.1.0
