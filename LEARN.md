@@ -34,11 +34,11 @@ python setup.py
 ```
 * Then run the `main.py` with your own arguments.
 ```bash
-python main.py <path/to/video> <openai whisper model>
+python main.py <path/to/video> <openai whisper model> <optional: preview (just input anything)>
 ```
 * Example
 ```bash
-python main.py video.mp4 tiny.en
+python main.py video.mp4 tiny.en 
 ```
 * Models
 
@@ -66,7 +66,9 @@ Make an [Issue](https://github.com/GodModed/ai-captions/issues) to report a bug 
 
 ## Version History
 
-* 0.1
+* 0.1.1
+   * Fixed video getting cut off
+* 0.1.0
     * Initial Release
 
 ## License

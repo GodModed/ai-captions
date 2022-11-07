@@ -5,5 +5,6 @@ import os
 
 os.system("pip install moviepy")
 os.system("pip install whisper")
+os.system("pip install pygame")
 
 print("You may need to install ffmpeg and imagemagick")

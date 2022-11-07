@@ -2,66 +2,36 @@ import whisper
 # get system args
 import sys
 import moviepy.editor as mp
+import argparse
+
+parser = argparse.ArgumentParser(prog = 'AI Captions', description = 'Create captions for videos using AI.')
+parser.add_argument("-v", "--video", help="The video file to add captions to", required=True, type=str)
+parser.add_argument("-m", "--model", help="The whisper model to use", required=True, type=str)
+parser.add_argument("-p", "--preview", help="Preview the video", action="store_true")
+
+args = parser.parse_args()
 
 video = None
 clips = []
 
-def getArgs(index):
-    if len(sys.argv) > index:
-        return sys.argv[index]
-    else:
-        return None
-
 def main():
     global video
-    validateArgs()
-    videoFile = getArgs(1)
-    whisperModel = getArgs(2)
+    videoFile = args.video
+    whisperModel = args.model
     # get audio from video usinng mp
     video = mp.VideoFileClip(videoFile)
     audio = video.audio
     audio.write_audiofile("output/audio.mp3")
     # send audio to whisper
     model = whisper.load_model(whisperModel)
-    out = model.transcribe("output/audio.mp3")
-    getData(out)
-
-def validateArgs():
-    if getArgs(1) is None:
-        print("Please provide a video file\nUsage: py main.py <video file> <whisper model>")
-        sys.exit()
-    if getArgs(2) is None:
-        print("Provide a whisper model\nUsage: py main.py <video file> <whisper model>")
-        sys.exit()
-
-def getData(output):
-
-    global video
-    
-    length = video.audio.duration
-
-    addCaptions(output)
-    
-    # loop through all segments
-    for segment in output["segments"]:
-        # get start and end time
-        start = segment["start"]
-        end = segment["end"]
-        # get text
-        text = segment["text"]
-
-        if end > length:
-            end = length
-
-        # export audio
-        # get length of audio
-        print(f"[{start}-{end}] {text}")
+    out = model.transcribe("output/audio.mp3", verbose=True)
+    addCaptions(out)
     
 def addCaptions(output):
     global video
     global clips
     # loop through all segments
-    lastSegmentTime = (0, 0)
+    lastEnd = None
     for segment in output["segments"]:
 
         start = segment["start"]
@@ -71,16 +41,27 @@ def addCaptions(output):
             end = video.audio.duration
         text = segment["text"]
         clip = video.subclip(start, end)
-        if lastSegmentTime != (0, 0):
-            if lastSegmentTime[1] != start:
-                clipWithNoCaptiom = video.subclip(lastSegmentTime[1], start)
+        if lastEnd is not None:
+            if lastEnd != start:
+                clipWithNoCaptiom = video.subclip(lastEnd, start)
                 clips.append(clipWithNoCaptiom)
         text_clip = mp.TextClip(text, color='white', method="label", size=clip.size, interline=-1, kerning=-2, align="South").set_duration(clip.duration)
         clip = mp.CompositeVideoClip([clip, text_clip])
         clips.append(clip)
-        lastSegmentTime = (start, end)
+        lastEnd = end
     video = mp.concatenate_videoclips(clips)
     video.write_videofile("output/output.mp4")
+    if args.preview:
+        newVideo = mp.VideoFileClip("output/output.mp4")
+        newVideo.preview(fps=newVideo.fps)
+
+def validateArgs():
+    if args.video is None:
+        print("You must provide a video file")
+        sys.exit()
+    if args.model is None:
+        print("You must provide a whisper model")
+        sys.exit()
 
 
 if __name__ == "__main__":
