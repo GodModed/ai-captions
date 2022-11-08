@@ -15,7 +15,6 @@ This small project uses OpenAI's whisper AI to generate captions for videos.
 
 ### Dependencies
 
-* ImageMagick
 * FFmpeg
 * Python
 
@@ -23,7 +22,7 @@ This small project uses OpenAI's whisper AI to generate captions for videos.
 
 * Clone the repo
 * Install python from [here](https://www.python.org/downloads/) if you have not already installed it.
-* You can install ImageMagic from [here](https://imagemagick.org/script/download.php) (The installer includes FFmpeg)
+* You can install FFmpeg from [here](https://www.ffmpeg.org/download.html) or use your package manager to install it.
 * Install the requirements by running `py setup.py` inside of the project directory.
 
 ### Executing program
@@ -62,7 +61,7 @@ These models are provided by OpenAI. [More Info](https://github.com/openai/whisp
 
 It may take some time to run for the first time since the AI model needs to be downloaded.
 
-The output of the program will be in the `output` folder. There will be a video called `output.mp4` inside of the folder.
+The output of the program will be in the `output` folder. There will be a video called `output.mp4` inside of the folder. There will also be a transcript file called `captions.vtt` and an audio file called `audio.mp3`.
 ## Help
 
 Make an [Issue](https://github.com/GodModed/ai-captions/issues) to report a bug or request a feature.
@@ -73,6 +72,9 @@ Make an [Issue](https://github.com/GodModed/ai-captions/issues) to report a bug 
 
 ## Version History
 
+* 0.3
+    * Using ffmpeg instead of moviepy
+    * Increased speed by so much
 * 0.2
     * Added the ability to preview the generated video.
     * Added better argument parsing.

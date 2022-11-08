@@ -72,6 +72,9 @@ Make an [Issue](https://github.com/GodModed/ai-captions/issues) to report a bug 
 
 ## Version History
 
+* 0.3
+    * Using ffmpeg instead of moviepy
+    * Increased speed by so much
 * 0.2
     * Added the ability to preview the generated video.
     * Added better argument parsing.
