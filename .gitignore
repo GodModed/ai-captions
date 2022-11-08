@@ -1,5 +1,5 @@
-input/!.gitkeep
-output/!.gitkeep
+input/*
+output/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
