@@ -5,6 +5,6 @@ import subprocess
 
 print("Installing dependencies")
 
-subprocess.call("pip install whisper", stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+subprocess.run("pip install whisper", stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
 print("You may need to install ffmpeg if you don't have it already")
