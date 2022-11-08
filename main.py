@@ -1,7 +1,8 @@
 import whisper
+from whisper.utils import write_vtt
+import subprocess
+import os
 # get system args
-import sys
-import moviepy.editor as mp
 import argparse
 
 parser = argparse.ArgumentParser(prog = 'AI Captions', description = 'Create captions for videos using AI.')
@@ -11,58 +12,40 @@ parser.add_argument("-p", "--preview", help="Preview the video", action="store_t
 
 args = parser.parse_args()
 
-video = None
-clips = []
-
 def main():
-    global video
     videoFile = args.video
     whisperModel = args.model
+    validateVideo(videoFile)
+    print("Extracting audio from video")
+    subprocess.call("ffmpeg -i " + videoFile + " output/audio.mp3 -y", stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     # get audio from video usinng mp
-    video = mp.VideoFileClip(videoFile)
-    audio = video.audio
-    audio.write_audiofile("output/audio.mp3")
     # send audio to whisper
     model = whisper.load_model(whisperModel)
+    print("Transcribing audio")
     out = model.transcribe("output/audio.mp3", verbose=True)
-    addCaptions(out)
+    with open("output/captions.vtt", "w") as f:
+        print("Writing transcript to file")
+        write_vtt(out["segments"], file=f)
+        addCaptions()
     
-def addCaptions(output):
-    global video
-    global clips
-    # loop through all segments
-    lastEnd = None
-    for segment in output["segments"]:
-
-        start = segment["start"]
-        end = segment["end"]
-
-        if end > video.audio.duration:
-            end = video.audio.duration
-        text = segment["text"]
-        clip = video.subclip(start, end)
-        if lastEnd is not None:
-            if lastEnd != start:
-                clipWithNoCaptiom = video.subclip(lastEnd, start)
-                clips.append(clipWithNoCaptiom)
-        text_clip = mp.TextClip(text, color='white', method="label", size=clip.size, interline=-1, kerning=-2, align="South").set_duration(clip.duration)
-        clip = mp.CompositeVideoClip([clip, text_clip])
-        clips.append(clip)
-        lastEnd = end
-    video = mp.concatenate_videoclips(clips)
-    video.write_videofile("output/output.mp4")
+def addCaptions():
+    print("Adding captions to video")
+    subprocess.call("ffmpeg -i " + args.video + " -vf subtitles=output/captions.vtt output/output.mp4 -y", stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     if args.preview:
-        newVideo = mp.VideoFileClip("output/output.mp4")
-        newVideo.preview(fps=newVideo.fps)
+        print("Previewing video")
+        # get absolute path
+        path = os.path.abspath("output/output.mp4")
+        os.startfile(path)
 
-def validateArgs():
-    if args.video is None:
-        print("You must provide a video file")
-        sys.exit()
-    if args.model is None:
-        print("You must provide a whisper model")
-        sys.exit()
 
+def validateVideo(videoFile):
+    # check if video file exists
+    try:
+        with open(videoFile, 'r') as f:
+            pass
+    except FileNotFoundError:
+        print("Video file does not exist")
+        exit()
 
 if __name__ == "__main__":
     main()

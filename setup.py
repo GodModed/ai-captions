@@ -1,10 +1,10 @@
 # import whisper
-import os
+import subprocess
 # import moviepy.editor as mp
 # download these imports
 
-os.system("pip install moviepy")
-os.system("pip install whisper")
-os.system("pip install pygame")
+print("Installing dependencies")
 
-print("You may need to install ffmpeg and imagemagick")
+subprocess.call("pip install whisper", stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+
+print("You may need to install ffmpeg if you don't have it already")
