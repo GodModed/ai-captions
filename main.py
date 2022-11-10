@@ -17,7 +17,7 @@ def main():
     whisperModel = args.model
     validateVideo(videoFile)
     print("Extracting audio from video")
-    subprocess.call("ffmpeg -i " + videoFile + " output/audio.mp3 -y", stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    subprocess.call("ffmpeg -i " + videoFile + " output/audio.mp3 -y -hide_banner -v warning -stats")
     # get audio from video usinng mp
     # send audio to whisper
     model = whisper.load_model(whisperModel)
@@ -30,7 +30,7 @@ def main():
     
 def addCaptions():
     print("Adding captions to video")
-    subprocess.call("ffmpeg -i " + args.video + " -vf subtitles=output/captions.vtt output/output.mp4 -y", stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    subprocess.call("ffmpeg -i " + args.video + " -vf subtitles=output/captions.vtt output/output.mp4 -y -hide_banner -v warning -stats")
     if args.preview:
         print("Previewing video")
         # get absolute path
